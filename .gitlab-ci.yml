@@ -1,0 +1,18 @@
+image: lnl7/nix
+
+before_script:
+  - nix-channel --add https://nixos.org/channels/nixos-17.09 nixpkgs
+  - nix-channel --update
+  - nix-env -i gzip
+
+build:
+  stage: build
+  script:
+    - nix-build sf.nix -A lf  && cp result lf.pdf
+    - nix-build sf.nix -A plf && cp result plf.pdf
+    - nix-build sf.nix -A vfa && cp result vfa.pdf
+  artifacts:
+    paths:
+      - lf.pdf
+      - plf.pdf
+      - vfa.pdf
